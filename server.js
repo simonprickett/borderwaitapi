@@ -35,25 +35,74 @@ router.route('/test').get(
 		}, function(error, resp, body) {
 			// TODO non-happy path
 			var xmlStatus = xmlParser.parseString(body, { trim: true, explicitArray: false }, function(err, res) {
-				var n = 0, 
-					portName = '',
+				var n = 0,
+					m = 0, 
+					portFullName = '',
+					portNameArray,
+					responseObj = {},
 					items = res.rss.channel.item;
 
+				responseObj.northernCountry = "United States";
+				responseObj.southernCountry = "Mexico";
+				responseObj.updatedAt = res.rss.channel.pubDate;
+				responseObj.crossingPoints = [];
+
 				for (n = 0; n < items.length; n++) {
-					portName = '' + items[n].title.trim()
-					//if (portName.endsWith(' -')) {
-					//	console.log('**');
-					// 	portName = portName.replace(' -', '');
-					//}
-					// Split at - use city and port of entry as some 
-					// have multiple places
-					console.log('"' + portName + '"');
+					portFullName = '' + items[n].title.trim()
+					portNameArray = portFullName.split('-');
+
+					responseObj.crossingPoints.push({
+						city: portNameArray[0].trim(),
+						crossingPoint: portNameArray[1].trim(),
+						crossingPointId: items[n].link.split('port=')[1],
+						rssLink: items[n].link,
+						updatedAt: "TODO",
+						commercialVehicles: {
+							maxLanes: 0,
+							standardLanes: {
+								lanesOpen: 0,
+								delay: 0
+							},
+							fastLanes: {
+								lanesOpen: 0,
+								delay: 0
+							}
+						},
+						passengerVehicles: {
+							maxLanes: 0,
+							standardLanes: {
+								lanesOpen: 0,
+								delay: 0
+							},
+							readyLanes: {
+								lanesOpen: 0,
+								delay: 0
+							},
+							sentriLanes: {
+								lanesOpen: 0,
+								delay: 0
+							}
+						},
+						pedestrians: {
+							maxLanes: 0,
+							standardLanes: {
+								lanesOpen: 0,
+								delay: 0
+							},
+							readyLanes: {
+								lanesOpen: 0,
+								delay: 0
+							}
+						},
+						hours: items[n].description._
+					});
+
+					console.log(items[n].description);
+					console.log('---------');
 				}				
-				var respJSON = {
-					"test": "value"
-				}
-				response.jsonp(respJSON);
-				//response.jsonp(res.rss.channel.item);
+
+
+				response.jsonp(responseObj);
 			});
 		});
 	}
