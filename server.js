@@ -57,6 +57,11 @@ router.route('/test').get(
 						crossingPointId: items[n].link.split('port=')[1],
 						rssLink: items[n].link,
 						updatedAt: "TODO",
+						isOpen: true,
+						hours: {
+							opensAt: 'TODO',
+							closesAt: 'TODO',
+						},
 						commercialVehicles: {
 							maxLanes: 0,
 							standardLanes: {
@@ -94,7 +99,7 @@ router.route('/test').get(
 								delay: 0
 							}
 						},
-						hours: items[n].description._
+						rawData: items[n].description._
 					});
 
 					console.log(items[n].description);
