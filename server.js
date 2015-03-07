@@ -2,6 +2,7 @@ var express = require('express');
 var cors = require('cors');
 var httpRequest = require('request');
 var xmlParser = require('xml2js');
+var utils = require('./borderutilities');
 var app = express();
 var router = express.Router();
 var port = process.env.PORT || 8888;
@@ -40,6 +41,7 @@ router.route('/test').get(
 					portFullName = '',
 					portNameArray,
 					responseObj = {},
+					parsedData = {},
 					items = res.rss.channel.item;
 
 				responseObj.northernCountry = "United States";
@@ -51,6 +53,9 @@ router.route('/test').get(
 					portFullName = '' + items[n].title.trim()
 					portNameArray = portFullName.split('-');
 
+					parsedData = utils.parseRawData(items[m].description._);
+					console.log(parsedData);
+					
 					responseObj.crossingPoints.push({
 						city: portNameArray[0].trim(),
 						crossingPoint: portNameArray[1].trim(),
@@ -99,13 +104,10 @@ router.route('/test').get(
 								delay: 0
 							}
 						},
+						notice: "TODO",
 						rawData: items[n].description._
 					});
-
-					console.log(items[n].description);
-					console.log('---------');
 				}				
-
 
 				response.jsonp(responseObj);
 			});
