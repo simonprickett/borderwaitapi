@@ -7,24 +7,6 @@ var app = express();
 var router = express.Router();
 var port = process.env.PORT || 8888;
 
-
-router.route('/status').get(
-	function(request, response) {
-		httpRequest({
-			uri: 'http://apps.cbp.gov/bwt/rss.asp?portList=Mexican%20Border&f=html',
-			method: 'GET',
-			timeout: 10000,
-			followRedirect: true,
-			maxRedirects: 10
-		}, function(error, resp, body) {
-			// TODO non-happy path
-			var xmlStatus = xmlParser.parseString(body, { trim: true, explicitArray: false }, function(err, res) {
-				response.jsonp(res.rss);
-			});
-		});
-	}
-);
-
 router.route('/test').get(
 	function(request, response) {
 		httpRequest({
