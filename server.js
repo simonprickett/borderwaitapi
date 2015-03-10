@@ -53,8 +53,7 @@ router.route('/test').get(
 					portFullName = '' + items[n].title.trim()
 					portNameArray = portFullName.split('-');
 
-					parsedData = utils.parseRawData(items[m].description._);
-					console.log(parsedData);
+					parsedData = utils.parseRawData(items[n].description._);
 					
 					responseObj.crossingPoints.push({
 						city: portNameArray[0].trim(),
@@ -62,49 +61,12 @@ router.route('/test').get(
 						crossingPointId: items[n].link.split('port=')[1],
 						rssLink: items[n].link,
 						updatedAt: "TODO",
-						isOpen: true,
-						hours: {
-							opensAt: 'TODO',
-							closesAt: 'TODO',
-						},
-						commercialVehicles: {
-							maxLanes: 0,
-							standardLanes: {
-								lanesOpen: 0,
-								delay: 0
-							},
-							fastLanes: {
-								lanesOpen: 0,
-								delay: 0
-							}
-						},
-						passengerVehicles: {
-							maxLanes: 0,
-							standardLanes: {
-								lanesOpen: 0,
-								delay: 0
-							},
-							readyLanes: {
-								lanesOpen: 0,
-								delay: 0
-							},
-							sentriLanes: {
-								lanesOpen: 0,
-								delay: 0
-							}
-						},
-						pedestrians: {
-							maxLanes: 0,
-							standardLanes: {
-								lanesOpen: 0,
-								delay: 0
-							},
-							readyLanes: {
-								lanesOpen: 0,
-								delay: 0
-							}
-						},
-						notice: "TODO",
+						isOpen: true, // TODO
+						hours: parsedData.hours,
+						commercialVehicles: parsedData.commercialVehicles,
+						passengerVehicles: parsedData.passengerVehicles,
+						pedestrians: parsedData.pedestrians,
+						notice: parsedData.notice,
 						rawData: items[n].description._
 					});
 				}				
