@@ -24,7 +24,7 @@ module.exports = {
 		return parsedData;
 	},
 
-	getLatLong: function(port) {
+	getLatLong: function(crossingPortId) {
 		var latLong = {};
 
 		latLong.latitude = 0.0;

@@ -21,6 +21,7 @@ router.route('/test').get(
 				var n = 0,
 					m = 0, 
 					portFullName = '',
+					crossingPointId = '',
 					portNameArray,
 					responseObj = {},
 					parsedData = {},
@@ -35,14 +36,15 @@ router.route('/test').get(
 				for (n = 0; n < items.length; n++) {
 					portFullName = '' + items[n].title.trim()
 					portNameArray = portFullName.split('-');
+					crossingPointId = items[n].link.split('port=')[1];
 
 					parsedData = utils.parseRawData(items[n].description._);
-					latLong = utils.getLatLong(portFullName);
+					latLong = utils.getLatLong(crossingPointId);
 					
 					responseObj.crossingPoints.push({
 						city: portNameArray[0].trim(),
 						crossingPoint: portNameArray[1].trim(),
-						crossingPointId: items[n].link.split('port=')[1],
+						crossingPointId: crossingPointId,
 						latitude: latLong.latitude,
 						longitude: latLong.longitude,
 						rssLink: items[n].link,
