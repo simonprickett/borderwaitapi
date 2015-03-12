@@ -22,6 +22,15 @@ module.exports = {
 		}
 
 		return parsedData;
+	},
+
+	getLatLong: function(port) {
+		var latLong = {};
+
+		latLong.latitude = 0.0;
+		latLong.longitude = 0.0;
+
+		return latLong;
 	}
 };
 

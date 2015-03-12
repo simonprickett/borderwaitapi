@@ -24,10 +24,11 @@ router.route('/test').get(
 					portNameArray,
 					responseObj = {},
 					parsedData = {},
+					latLong = {},
 					items = res.rss.channel.item;
 
-				responseObj.northernCountry = "United States";
-				responseObj.southernCountry = "Mexico";
+				responseObj.northernCountry = 'United States';
+				responseObj.southernCountry = 'Mexico';
 				responseObj.updatedAt = res.rss.channel.pubDate;
 				responseObj.crossingPoints = [];
 
@@ -36,11 +37,14 @@ router.route('/test').get(
 					portNameArray = portFullName.split('-');
 
 					parsedData = utils.parseRawData(items[n].description._);
+					latLong = utils.getLatLong(portFullName);
 					
 					responseObj.crossingPoints.push({
 						city: portNameArray[0].trim(),
 						crossingPoint: portNameArray[1].trim(),
 						crossingPointId: items[n].link.split('port=')[1],
+						latitude: latLong.latitude,
+						longitude: latLong.longitude,
 						rssLink: items[n].link,
 						updatedAt: items[n].pubDate,
 						hours: parsedData.hours,
