@@ -10,47 +10,14 @@ module.exports = {
 	// Border Notice
 
 	parseRawData: function(rawData) {
-		var parsedData = {};
+		var parsedData = {},
+			laneData = parseLaneData(rawData);
 
 		parsedData = {
 			hours: parseOpeningHours(getValueByLabel('Hours', rawData)),
-			commercialVehicles: {
-				maxLanes: 0,
-				standardLanes: {
-					lanesOpen: 0,
-					delay: 0
-				},
-				fastLanes: {
-					lanesOpen: 0,
-					delay: 0
-				}
-			},
-			passengerVehicles: {
-				maxLanes: 0,
-				standardLanes: {
-					lanesOpen: 0,
-					delay: 0
-				},
-				readyLanes: {
-					lanesOpen: 0,
-					delay: 0
-				},
-				sentriLanes: {
-					lanesOpen: 0,
-					delay: 0
-				}				
-			},
-			pedestrians: {
-				maxLanes: 0,
-				standardLanes: {
-					lanesOpen: 0,
-					delay: 0
-				},
-				readyLanes: {
-					lanesOpen: 0,
-					delay: 0
-				}				
-			},
+			commercialVehicles: laneData.commercialVehicles,
+			passengerVehicles: laneData.passengerVehicles,
+			pedestrians: laneData.pedestrians,
 			notice: getValueByLabel('Notice', rawData)
 		}
 
@@ -100,11 +67,59 @@ var parseOpeningHours = function(hours) {
 	if (hours === '24 hrs/day') {
 		openingHours.opensAt = 24;
 		openingHours.closesAt = 24;
+		openingHours.isOpen = true;
 	} else {
 		hoursComponents = hours.split('-');
 		openingHours.opensAt = convertHourTo24Hour(hoursComponents[0]);
 		openingHours.closesAt = convertHourTo24Hour(hoursComponents[1]);
+		openingHours.isOpen = false; // TODO
 	}
 
 	return openingHours;
 };
+
+var parseLaneData = function(rawData) {
+	var laneData = {};
+
+	laneData.commercialVehicles = {
+		maxLanes: 0,
+		standardLanes: {
+			lanesOpen: 0,
+			delay: 0
+		},
+		fastLanes: {
+			lanesOpen: 0,
+			delay: 0
+		}
+	};
+
+	laneData.passengerVehicles = {
+		maxLanes: 0,
+		standardLanes: {
+			lanesOpen: 0,
+			delay: 0
+		},
+		readyLanes: {
+			lanesOpen: 0,
+			delay: 0
+		},
+		sentriLanes: {
+			lanesOpen: 0,
+			delay: 0
+		}				
+	};
+
+	laneData.pedestrians = {
+		maxLanes: 0,
+		standardLanes: {
+			lanesOpen: 0,
+			delay: 0
+		},
+		readyLanes: {
+			lanesOpen: 0,
+			delay: 0
+		}				
+	};
+
+	return laneData;
+}

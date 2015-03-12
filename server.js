@@ -43,7 +43,6 @@ router.route('/test').get(
 						crossingPointId: items[n].link.split('port=')[1],
 						rssLink: items[n].link,
 						updatedAt: items[n].pubDate,
-						isOpen: true, // TODO
 						hours: parsedData.hours,
 						commercialVehicles: parsedData.commercialVehicles,
 						passengerVehicles: parsedData.passengerVehicles,
