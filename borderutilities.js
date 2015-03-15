@@ -87,11 +87,39 @@ var parseOpeningHours = function(hours) {
 	return openingHours;
 };
 
+var parseLaneString = function(laneString) {
+	var laneData = {
+		numLanes: 0,
+		delay: 0
+	};
+
+	if (! (laneString === 'N/A' || laneString === 'Lanes Closed' || laneString === 'Lane Closed')) {
+		// Some number of langes maybe with some delay
+	}
+
+	return laneData;
+};
+
+var parseNumber = function(str) {
+	if (str === 'N/A') {
+		return 0;
+	} else {
+		return parseInt(str);
+	}
+}
+
 var parseLaneData = function(rawData) {
 	var laneData = {};
 
+	// Maximum Lanes:
+	// Standard Lanes:
+	// Fast Lanes:
+
+	dataElements = rawData.split('Maximum Lanes: ');
+
 	laneData.commercialVehicles = {
-		maxLanes: 0,
+		rawData: dataElements[1],
+		maxLanes: parseNumber(dataElements[1].split(' ')[0].trim()),
 		standardLanes: {
 			lanesOpen: 0,
 			delay: 0
@@ -102,8 +130,14 @@ var parseLaneData = function(rawData) {
 		}
 	};
 
+	// Maximum Lanes:
+	// Standard Lanes:
+	// Readylane:
+	// Sentri Lanes:
+
 	laneData.passengerVehicles = {
-		maxLanes: 0,
+		rawData: dataElements[2],
+		maxLanes: parseNumber(dataElements[2].split(' ')[0].trim()),
 		standardLanes: {
 			lanesOpen: 0,
 			delay: 0
@@ -118,8 +152,13 @@ var parseLaneData = function(rawData) {
 		}				
 	};
 
+	// Maximum Lanes:
+	// Standard Lanes:
+	// Readylane:
+
 	laneData.pedestrians = {
-		maxLanes: 0,
+		rawData: dataElements[3],
+		maxLanes: parseNumber(dataElements[3].split(' ')[0].trim()),
 		standardLanes: {
 			lanesOpen: 0,
 			delay: 0
